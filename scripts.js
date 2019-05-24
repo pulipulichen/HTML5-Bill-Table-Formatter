@@ -9,7 +9,11 @@ var app = new Vue({
   },
   computed: {
     output: function () {
-      return '<span>Hello, world.</span>'
+      let output = []
+      for (let i = 0; i < 100; i++) {
+        output.push('<div>Hello, world.</div>')
+      }
+      return output.join('<br />')
     }
   },
   created: function () {

@@ -26,6 +26,11 @@
     <script src="helpers/DateHelper.js"></script>
     <script src="helpers/VueHelper.js"></script>
     
+    <!-- Style --->
+    
+    <link rel="stylesheet/less" type="text/css" href="styles.less" />
+    <script src="vendors/less/less.min.js" ></script>
+    
     <link rel="icon" type="image/png" href="icon.png" />
   </head>
   <body>
@@ -44,7 +49,7 @@
               </button>
             </div>
             <div class="field"> 
-              <textarea v-model="input" onfocus="this.select()"></textarea>
+              <textarea class="input" v-model="input" onfocus="this.select()"></textarea>
             </div>
           </div>
           <div class="eight wide column">
@@ -69,7 +74,7 @@
               </div>
             </div>
             
-            <div v-html="output"></div>
+            <div v-html="output" class="output"></div>
             
           </div>
         </div>
@@ -78,6 +83,6 @@
       </form>
     </div>
     
-    <script src="script.js"></script>
+    <script src="scripts.js"></script>
   </body>
 </html>
