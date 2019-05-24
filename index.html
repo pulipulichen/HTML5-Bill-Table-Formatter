@@ -25,6 +25,7 @@
     <script src="helpers/UploadHelper.js"></script>
     <script src="helpers/DateHelper.js"></script>
     <script src="helpers/VueHelper.js"></script>
+    <script src="helpers/ClipboardHelper.js"></script>
     
     <!-- Style --->
     
@@ -57,7 +58,7 @@
               <div class="field">
                 <label>&nbsp;</label>
                 <button type="button"
-                        class="ui labeled icon fluid green button" 
+                        class="ui labeled icon fluid button" 
                         @click="reset">
                   <i class="window close icon"></i>
                   CLEAN
@@ -71,8 +72,8 @@
           </div>
           <div class="eight wide column">
             
-            <div class="two fields">
-              <div class="field">
+            <div class="three fields">
+              <div class="eight wide field">
                 <label>&nbsp;</label>
                 <select name="fileType" v-model="fileType" @change="persist">
                   <option value="csv">HTML (.html)</option>
@@ -81,13 +82,22 @@
                   <option value="ods">OpenDocument Spreadsheet (.ods)</option>
                 </select>
               </div>
-              <div class="field">
+              <div class="four wide field">
                 <label>&nbsp;</label>
                 <button type="button"
                         class="ui labeled icon fluid green button" 
                         @click="download">
                   <i class="download icon"></i>
                   DOWNLOAD
+                </button>
+              </div>
+              <div class="four wide field">
+                <label>&nbsp;</label>
+                <button type="button"
+                        class="ui labeled icon fluid green button" 
+                        @click="copy">
+                  <i class="copy icon"></i>
+                  COPY
                 </button>
               </div>
             </div>

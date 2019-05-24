@@ -27,7 +27,7 @@ var app = new Vue({
       let tbody = table.find('tbody')
       output.split('\n').forEach((line) => {
         line = line.trim()
-        let tr = $('<tr></tr>').appendTo(tbody)
+        let tr = $('<tr></tr>')
         if (line.startsWith('1')) {
           // 表示這是一般支付
           
@@ -94,14 +94,17 @@ var app = new Vue({
           $(`<td valign="top" class="ntd-price">${fieldNTDPrice}</td>`).appendTo(tr)
         }
         else if (line.startsWith('應付')) {
-          console.log(line)
+          //console.log(line)
           let td = tbody.find('td.description:last')
           //console.log(td.length)
           
           td.html(td.html() + '<br />' + line.split('　').join('<br />'))
         }
+        
+        if (tr.children().length > 0) {
+          tr.appendTo(tbody)
+        }
       })
-      
       
       return table.prop('outerHTML')
     },
@@ -134,6 +137,9 @@ var app = new Vue({
     },
     reset: function () {
       this.input = ''
+    },
+    copy: function () {
+      ClipboardHelper.copyRichFormat(this.output)
     },
     upload: function () {
       
