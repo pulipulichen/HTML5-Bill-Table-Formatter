@@ -29,6 +29,11 @@
     <!-- Style --->
     
     <link rel="stylesheet/less" type="text/css" href="styles.less" />
+    <script>
+      less = {
+        logLevel: 0,
+      }
+    </script>
     <script src="vendors/less/less.min.js" ></script>
     
     <link rel="icon" type="image/png" href="icon.png" />
@@ -39,22 +44,35 @@
       <form class="ui form">
         <div class="ui grid">
           <div class="eight wide column">
-            <div class="field">
-              <label>&nbsp;</label>
-              <button type="button"
-                      class="ui labeled icon fluid green button" 
-                      @click="upload">
-                <i class="upload icon"></i>
-                TEXT FILE UPLOAD
-              </button>
+            <div class="two fields">
+              <div class="field">
+                <label>&nbsp;</label>
+                <button type="button"
+                        class="ui labeled icon fluid green button" 
+                        @click="upload">
+                  <i class="upload icon"></i>
+                  TEXT FILE UPLOAD
+                </button>
+              </div>
+              <div class="field">
+                <label>&nbsp;</label>
+                <button type="button"
+                        class="ui labeled icon fluid green button" 
+                        @click="reset">
+                  <i class="window close icon"></i>
+                  CLEAN
+                </button>
+              </div>
             </div>
+              
             <div class="field"> 
               <textarea class="input" v-model="input" onfocus="this.select()"></textarea>
             </div>
           </div>
           <div class="eight wide column">
-            <div class="ui grid">
-              <div class="ten wide field">
+            
+            <div class="two fields">
+              <div class="field">
                 <label>&nbsp;</label>
                 <select name="fileType" v-model="fileType" @change="persist">
                   <option value="csv">HTML (.html)</option>
@@ -63,7 +81,7 @@
                   <option value="ods">OpenDocument Spreadsheet (.ods)</option>
                 </select>
               </div>
-              <div class="six wide column">
+              <div class="field">
                 <label>&nbsp;</label>
                 <button type="button"
                         class="ui labeled icon fluid green button" 
@@ -72,6 +90,12 @@
                   DOWNLOAD
                 </button>
               </div>
+            </div>
+            <div class="field">
+              <label>
+                Title
+              </label>
+              <input type="text" v-model="outputTitle" />
             </div>
             
             <div v-html="output" class="output"></div>
