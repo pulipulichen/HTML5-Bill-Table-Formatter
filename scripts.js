@@ -11,10 +11,16 @@ var app = new Vue({
   computed: {
     output: function () {
       let header = '本期交易明細'
-      let output  = this.input.slice(this.input.indexOf(header) + header.length).trim()
+      let posHeader = this.input.indexOf(header)
+      let output  = this.input.slice(posHeader + header.length).trim()
       
       let footer = '您的信用卡循環信用利率為'
-      output = output.slice(0, output.indexOf(footer)).trim()
+      let posFooter = output.indexOf(footer)
+      output = output.slice(0, posFooter).trim()
+      
+      if (posHeader === -1 || posFooter === -1) {
+        return ''
+      }
       // 先取得頭跟尾
       
       // -------------
@@ -112,6 +118,9 @@ var app = new Vue({
       let header = '\n  TWD         1'
       let pos1 = this.input.indexOf(header) + header.length - 1
       let pos2 = this.input.indexOf(' ', pos1)
+      if (pos1 === -1 || pos2 === -1) {
+        return ''
+      }
       let title = this.input.slice(pos1, pos2).trim()
       
       let yearMingGou = parseInt(title.slice(0, 3), 10)
@@ -128,7 +137,12 @@ var app = new Vue({
     
     // 載入檔案
     $.get('./data.txt', (data) => {
-      this.input = data
+      //this.input = data
+    })
+    
+    FileHelper.initDropUpload((e) => {
+      //console.log(e)
+      this.upload(e)
     })
   },
   methods: {
@@ -141,8 +155,13 @@ var app = new Vue({
     copy: function () {
       ClipboardHelper.copyRichFormat(this.output)
     },
-    upload: function () {
-      
+    triggerUpload: function (e) {
+      FileHelper.triggerUpload(e)
+    },
+    upload: function (e) {
+      FileHelper.upload(e, true, (result) => {
+        this.input = result[0]
+      })
     },
     download: function () {
       let filetypeExt = this.fileType

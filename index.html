@@ -27,6 +27,9 @@
     <script src="helpers/VueHelper.js"></script>
     <script src="helpers/ClipboardHelper.js"></script>
     
+    <link rel="stylesheet/less" type="text/css" href="helpers/FileHelper.less" />
+    <script src="helpers/FileHelper.js"></script>
+    
     <!-- Style --->
     
     <link rel="stylesheet/less" type="text/css" href="styles.less" />
@@ -44,15 +47,18 @@
          ref="modal">
       <form class="ui form">
         <div class="ui grid">
-          <div class="eight wide column">
+          <div class="six wide column">
             <div class="two fields">
               <div class="field">
                 <label>&nbsp;</label>
+                <input type="file" 
+                       accept=".txt,.dat"
+                       @change="upload" />
                 <button type="button"
                         class="ui labeled icon fluid green button" 
-                        @click="upload">
+                        @click="triggerUpload">
                   <i class="upload icon"></i>
-                  TEXT FILE UPLOAD
+                  UPLOAD
                 </button>
               </div>
               <div class="field">
@@ -70,7 +76,7 @@
               <textarea class="input" v-model="input" onfocus="this.select()"></textarea>
             </div>
           </div>
-          <div class="eight wide column">
+          <div class="ten wide column">
             
             <div class="three fields">
               <div class="eight wide field">
