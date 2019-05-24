@@ -82,10 +82,10 @@
               <div class="eight wide field">
                 <label>&nbsp;</label>
                 <select name="fileType" v-model="fileType" @change="persist">
-                  <option value="csv">HTML (.html)</option>
-                  <option value="csv">Comma-Separated Values (.csv)</option>
-                  <!-- <option value="txt">Plain Text (.txt)</option> -->
                   <option value="ods">OpenDocument Spreadsheet (.ods)</option>
+                  <option value="csv">Comma-Separated Values (.csv)</option>
+                  <option value="html">HTML (.html)</option>
+                  <!-- <option value="txt">Plain Text (.txt)</option> -->
                 </select>
               </div>
               <div class="four wide field">
@@ -109,9 +109,9 @@
             </div>
             <div class="field">
               <label>
-                Title
+                Filename
               </label>
-              <input type="text" v-model="outputTitle" />
+              <input type="text" v-model="outputTitle" disabled="disabled" />
             </div>
             
             <div v-html="output" class="output"></div>

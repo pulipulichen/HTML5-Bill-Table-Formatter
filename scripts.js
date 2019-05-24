@@ -27,7 +27,17 @@ var app = new Vue({
       // 再來把它換成表格
       
       let table = $(`<table border="1" cellpadding="0" cellspacing="0">
-                        <thead></thead>
+                        <thead>
+                          <tr>
+                            <th>消費日</th>
+                            <th>入帳日</th>
+                            <th>說明</th>
+                            <th>地區</th>
+                            <th>兌換日</th>
+                            <th>原幣金額</th>
+                            <th>新台幣金額</th>
+                          </tr>
+                        </thead>
                         <tbody></tbody>
                      </table>`)
       let tbody = table.find('tbody')
@@ -136,9 +146,9 @@ var app = new Vue({
     $(this.$refs.modal).find('.ui.dropdown').dropdown()
     
     // 載入檔案
-    $.get('./data.txt', (data) => {
-      //this.input = data
-    })
+    //$.get('./data.txt', (data) => {
+    //  this.input = data
+    //})
     
     FileHelper.initDropUpload((e) => {
       //console.log(e)
@@ -166,30 +176,59 @@ var app = new Vue({
     download: function () {
       let filetypeExt = this.fileType
       
-      let filename = this.count + 'MobilePhoneNumbers-' + DateHelper.getCurrentTimeString() + '.' + filetypeExt
-      let content = this.phoneNumbers
+      let filename = this.outputTitle + '.' + filetypeExt
+      let content = this.output
       
-      if (['csv', 'txt'].indexOf(filetypeExt) > -1) {
-        if (filetypeExt === 'csv') {
-          content = 'Mobile Phone Numbers\n' + content
-        }
-
-        DownloadHelper.downloadAsFile(filename, content)
-        //console.log(this.phoneNumbers)
+      if (filetypeExt === 'csv') {
+        let lines = []
+        
+        lines.push('消費日,入帳日,說明,地區,兌換日,原幣金額,新台幣金額')
+        
+        $(content).find('tbody tr').each((i, tr) => {
+          let line = []
+          $(tr).children().each((i, td) => {
+            let text = td.innerText
+            if ($(td).hasClass('description')) {
+              text = '"' + text + '"'
+            }
+            else {
+              text = text.split(',').join('')
+            }
+            line.push(text)
+          })
+          lines.push(line.join(','))
+        })
+        
+        DownloadHelper.downloadAsFile(filename, lines.join('\n'))
+      }
+      else if (filetypeExt === 'html') {
+        let template = `<html>
+  <head>
+    <title>${this.outputTitle}</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  </head>
+  <body>
+    ${content}
+  </body>
+</html>`
+        DownloadHelper.downloadAsFile(filename, template)
       }
       else if (filetypeExt === 'ods') {
-        let data = {
-          "data": []
-        }
         
-        content.split('\n').forEach((line) => {
-          if (typeof(line) !== 'string' || line.trim() === '') {
-            return
-          }
-          line = line.trim()
-          data.data.push({
-            'Mobile Phone Numbers': line
+        let data = {}
+        data[this.outputTitle] = []
+        let lines = data[this.outputTitle]
+        
+        let fieldList = ["消費日","入帳日","說明","地區","兌換日","原幣金額","新台幣金額"]
+        $(content).find('tbody tr').each((i, tr) => {
+          let line = {}
+          $(tr).children().each((i, td) => {
+            let text = td.innerText
+            let field = fieldList[i]
+            line[field] = text
           })
+          lines.push(line)
         })
         
         xlsx_helper_ods_download(filename, data)

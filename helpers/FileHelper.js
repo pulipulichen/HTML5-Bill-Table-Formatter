@@ -3,7 +3,7 @@
 //import {saveAs} from 'file-saver'
 
 let FileHelper = {
-  download: function (url, filename) {
+  downloadByURL: function (filename, url) {
 
     if (typeof(filename) !== 'string') {
       filename = url.slice(url.lastIndexOf('/') + 1)
@@ -16,12 +16,14 @@ let FileHelper = {
     link.click();
     document.body.removeChild(link);
     //delete link;
-
   },
-  save: function (content, filename) {
+  downlaod: function (filename, content) {
     let blob = new Blob([content])
     saveAs(blob, filename)
   },
+  
+  // ---------------------
+  
   triggerUpload: function (e) {
     $(e.target).parent().children('input:file:first').val('').click()
   },
