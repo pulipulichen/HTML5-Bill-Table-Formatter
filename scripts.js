@@ -14,7 +14,7 @@ var app = new Vue({
       let posHeader = this.input.indexOf(header)
       let output  = this.input.slice(posHeader + header.length).trim()
       
-      let footer = '您的信用卡循環信用利率為'
+      let footer = '您的信用卡循環信用'
       let posFooter = output.indexOf(footer)
       output = output.slice(0, posFooter).trim()
       
@@ -146,9 +146,9 @@ var app = new Vue({
     $(this.$refs.modal).find('.ui.dropdown').dropdown()
     
     // 載入檔案
-    //$.get('./data.txt', (data) => {
-    //  this.input = data
-    //})
+    $.get('./data.txt', (data) => {
+      this.input = data
+    })
     
     FileHelper.initDropUpload((e) => {
       //console.log(e)
